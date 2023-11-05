@@ -18,13 +18,13 @@ spec:
         # for the load balancer to find the pod(s)
         category: microservice
     spec:
+      volumes:
+        - name: secret-volume
+        secret:
+          secretName: dotfile-secrets
       containers:
         - name: company-service
           # hier den AWS ECR Pfad eintragen
           image: company-service:latest
           ports:
             - containerPort: 3000
-          # das hier noch mit Kubernetes Secrets anpassen
-          env:
-            - name: MONGO_URI
-              value: mongodb://mongo-service:27017/company
