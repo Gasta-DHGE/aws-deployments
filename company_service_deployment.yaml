@@ -2,6 +2,8 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: company-service-deployment
+  labels:
+    category: microservice
 spec:
   # Replicas means how many pods you want to run
   # Best practice is to run 1 pod per Microservice
@@ -18,13 +20,45 @@ spec:
         # for the load balancer to find the pod(s)
         category: microservice
     spec:
-      volumes:
-        - name: secret-volume
-          secret:
-            secretName: dotfile-secrets
       containers:
         - name: company-service
-          # hier den AWS ECR Pfad eintragen
-          image: company-service:latest
+          image: 051916965142.dkr.ecr.eu-central-1.amazonaws.com/gasta_microservices:company-service-image
           ports:
             - containerPort: 3000
+          env:
+            - name: PORT
+              value: "3000"
+            - name: ADDRESS
+              value: "ae7e1a94d42dd413a929bcb74143b5a1-2100868573.eu-central-1.elb.amazonaws.com"
+            # - name: ADDRESS
+            #   value: "127.0.0.1"
+            - name: PROJECT_ID
+              valueFrom:
+                secretKeyRef:
+                  name: dotfile-secrets
+                  key: PROJECT_ID
+            - name: PRIVATE_KEY_ID
+              valueFrom:
+                secretKeyRef:
+                  name: dotfile-secrets
+                  key: PRIVATE_KEY_ID
+            - name: PRIVATE_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: dotfile-secrets
+                  key: PRIVATE_KEY
+            - name: CLIENT_EMAIL
+              valueFrom:
+                secretKeyRef:
+                  name: dotfile-secrets
+                  key: CLIENT_EMAIL
+            - name: CLIENT_ID
+              valueFrom:
+                secretKeyRef:
+                  name: dotfile-secrets
+                  key: CLIENT_ID
+            - name: CLIENT_CERT_URL
+              valueFrom:
+                secretKeyRef:
+                  name: dotfile-secrets
+                  key: CLIENT_CERT_URL
