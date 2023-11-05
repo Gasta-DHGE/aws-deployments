@@ -20,8 +20,8 @@ spec:
     spec:
       volumes:
         - name: secret-volume
-        secret:
-          secretName: dotfile-secrets
+          secret:
+            secretName: dotfile-secrets
       containers:
         - name: company-service
           # hier den AWS ECR Pfad eintragen
