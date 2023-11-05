@@ -1,0 +1,23 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: microservice-load-balancer
+spec:
+  type: LoadBalancer
+  selector:
+    category: microservice
+  ports:
+    - protocol: TCP
+      # Port for calling the load balancer
+      port: 3001
+      # Forwards to this port for the pods
+      targetPort: 3001
+    # - protocol: TCP
+    #   port: 3002
+    #   targetPort: 3002
+    # - protocol: TCP
+    #   port: 3003
+    #   targetPort: 3003
+    # - protocol: TCP
+    #   port: 3004
+    #   targetPort: 3004

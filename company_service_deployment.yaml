@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: company-service-deployment
+spec:
+  # Replicas means how many pods you want to run
+  # Best practice is to run 1 pod per Microservice
+  replicas: 1
+  # selector is used to select which pods should be managed by this deployment
+  selector:
+    matchLabels:
+      app: company-service
+  # here we configure the pod
+  template:
+    metadata:
+      labels:
+        app: company-service
+        # for the load balancer to find the pod(s)
+        category: microservice
+    spec:
+      containers:
+        - name: company-service
+          # hier den AWS ECR Pfad eintragen
+          image: company-service:latest
+          ports:
+            - containerPort: 3000
+          # das hier noch mit Kubernetes Secrets anpassen
+          env:
+            - name: MONGO_URI
+              value: mongodb://mongo-service:27017/company
