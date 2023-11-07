@@ -29,10 +29,8 @@ spec:
           env:
             - name: PORT
               value: "3000"
-            # - name: ADDRESS
-            #   value: "adfbd7949a74d4ca3bdee1b2c6503557-1461038777.eu-central-1.elb.amazonaws.com"
-            # - name: ADDRESS
-            #   value: "127.0.0.1"
+            - name: ADDRESS
+              value: "0.0.0.0"
             - name: PROJECT_ID
               valueFrom:
                 secretKeyRef:
