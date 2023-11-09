@@ -23,6 +23,7 @@ spec:
     spec:
       containers:
         - name: company-service
+          # uploaded image in ECR
           image: 051916965142.dkr.ecr.eu-central-1.amazonaws.com/gasta_microservices:company-service-image
           ports:
             - containerPort: 3000

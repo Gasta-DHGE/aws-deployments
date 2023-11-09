@@ -6,14 +6,25 @@ metadata:
   labels:
     app: microservice-load-balancer
   annotations:
+    ### important for network load balancer ###
+    # load balancer is accessible from outside the cluster (public)
     service.beta.kubernetes.io/aws-load-balancer-type: external
+    # ip = Forward traffic to the pod's IP address
+    # instance = Forward traffic to the pod's instance ID (EC2) -> when using fargate, this is not possible
     service.beta.kubernetes.io/aws-load-balancer-nlb-target-type: ip
+    # service should be accessible from outside the VPC
+    # delete the following line, when using fargate
     service.beta.kubernetes.io/aws-load-balancer-scheme: internet-facing
 spec:
   type: LoadBalancer
   selector:
     app: company-service
+  # define the port mapping for each pod
+  # you can then access the service via the load balancer on port 3000, 3001, 3002
+  # -> e.g. http://<load-balancer-url>:3000
   ports:
     - protocol: TCP
+      # Port from outside the pod
       port: 3000
+      # Port inside the pod
       targetPort: 3000
